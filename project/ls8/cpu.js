@@ -68,28 +68,50 @@ class CPU {
         // from the memory address pointed to by the PC. (I.e. the PC holds the
         // index into memory of the instruction that's about to be executed
         // right now.)
-
+        
         // !!! IMPLEMENT ME
-
+        const IR = this.ram.mem[this.PC];
         // Debugging output
-        //console.log(`${this.PC}: ${IR.toString(2)}`);
+        // console.log(`${this.PC}: ${IR.toString(2)}`);
 
         // Get the two bytes in memory _after_ the PC in case the instruction
         // needs them.
 
         // !!! IMPLEMENT ME
+        const operandA = this.ram.read(this.PC + 1);
+        // console.log(`operandA: ${operandA}`);
+        const operandB = this.ram.read(this.PC + 2);
+        // console.log(`operandB: ${operandB}`);
 
         // Execute the instruction. Perform the actions for the instruction as
         // outlined in the LS-8 spec.
 
         // !!! IMPLEMENT ME
-
+        switch(IR) {
+          case parseInt("10011001", 2): // LDI - register immediate
+            this.reg[operandA] = operandB;
+            break;
+          case parseInt("01000011", 2): // PRN - register pseudo-instruction
+            console.log(this.reg[operandA]);
+            break;
+          case parseInt("00000001", 2): // HLT -  halt cpu and exit emulator/ stop cycling
+            this.stopClock();
+            break;
+        }
+      
         // Increment the PC register to go to the next instruction. Instructions
         // can be 1, 2, or 3 bytes long. Hint: the high 2 bits of the
         // instruction byte tells you how many bytes follow the instruction byte
         // for any particular instruction.
         
         // !!! IMPLEMENT ME
+        if (IR.toString(2).slice(0, 2) === "00") {
+          this.PC += 1;
+        } else if (IR.toString(2).slice(0, 2) === "01") {
+          this.PC += 2;
+        } else if (IR.toString(2).slice(0, 2) === "10") {
+          this.PC += 3;
+        }
     }
 }
 
