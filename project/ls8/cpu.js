@@ -95,11 +95,10 @@ class CPU {
         switch(IR) {
           case LDI: // LDI - register immediate
             this.reg[operandA] = operandB;
-            // console.log(`value: ${this.reg[operandA]}`);
             this.PC += 3;
             break;
           case PRN: // PRN - register pseudo-instruction
-            // console.log(this.reg[operandA]);
+            console.log(this.reg[operandA]);
             this.PC += 2;
             break;
           case HLT: // HLT -  halt cpu and exit emulator/ stop cycling
@@ -107,7 +106,7 @@ class CPU {
             this.PC += 1;
             break;
           case MUL: // MUL - multiply
-            console.log(this.alu("MUL", this.reg[operandA], this.reg[operandB]));
+            this.reg[operandA] = this.alu("MUL", this.reg[operandA], this.reg[operandB]);
             this.PC += 3;
             break;
           default:

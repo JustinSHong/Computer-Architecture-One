@@ -1,5 +1,6 @@
 const RAM = require('./ram');
 const CPU = require('./cpu');
+const fs = require("fs");
 
 /**
  * Load an LS8 program into memory
@@ -19,20 +20,36 @@ function loadMemory() {
     //     "00000001"  // HLT       Halt and quit
     // ];
 
-    const program = [
-        "10011001", // LDI R0,8
-        "00000000",
-        "00001000",
-        "10011001", // LDI R1,9
-        "00000001",
-        "00001001",
-        "10101010", // MUL R0,R1 <---
-        "00000000",
-        "00000001",
-        "01000011", // PRN R0
-        "00000000",
-        "00000001"  // HLT
-    ];
+    // const program = [
+    //     "10011001", // LDI R0,8
+    //     "00000000",
+    //     "00001000",
+    //     "10011001", // LDI R1,9
+    //     "00000001",
+    //     "00001001",
+    //     "10101010", // MUL R0,R1 <---
+    //     "00000000",
+    //     "00000001",
+    //     "01000011", // PRN R0
+    //     "00000000",
+    //     "00000001"  // HLT
+    // ];
+
+    // load a specific file
+    const file = fs.readFileSync(`${process.argv[2]}`, "utf8").split("\n");
+    // console.log(file);
+
+    const program = [];
+    // clean up file lines
+    for (let i = 2; i < file.length; i++) {
+      // console.log(`line ${i}: ${file[i]}`);
+      if (file[i].includes(" ")) {
+        program.push(file[i].slice(0, file[i].indexOf(" ")));
+      } else {
+        program.push(file[i]);
+      }
+    }
+    // console.log(`program: ${program}`);
 
     // Load the program into the CPU's memory a byte at a time
     for (let i = 0; i < program.length; i++) {
