@@ -41,18 +41,37 @@ function loadMemory() {
   }
 
   // load a specific file
-  const file = fs.readFileSync(`${process.argv[2]}`, "utf8").split("\n");
-  // console.log(file);
+  const file = fs
+    .readFileSync(`${process.argv[2]}`, "utf8")
+    .trim()
+    .split(/[\n]/);
+  console.log(file);
 
   const program = [];
   // clean up file lines
-  for (let i = 2; i < file.length; i++) {
-    // console.log(`line ${i}: ${file[i]}`);
-    if (file[i].includes(" ")) {
-      program.push(file[i].slice(0, file[i].indexOf(" ")));
-    } else {
-      program.push(file[i]);
+  for (let line of file) {
+    let value;
+    // check each line with parseInt
+    if (isNaN(parseInt(line, 2))) {
+      continue; // do not consider this line to be in the program
     }
+    // check to see if a line has a "#"
+    // if so, extract up to the # and trim
+    if (/#/.test(line)) {
+      value = line.slice(0, line.indexOf("#"));
+    } else {
+      value = line;
+    }
+    value.trim();
+    // console.log(`value: ${value}`);
+    // check to see if the line has nums other than 0 or 1
+    // if so, print an error message to the user
+    if (/[2-9]/.test(value)) {
+      console.log(
+        "Invalid program instruction. Please provide instruction in binary"
+      );
+    }
+    program.push(value);
   }
   // console.log(`program: ${program}`);
 
