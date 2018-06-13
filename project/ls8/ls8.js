@@ -70,6 +70,7 @@ function loadMemory() {
       console.log(
         "Invalid program instruction. Please provide instruction in binary"
       );
+      process.exit(1);
     }
     program.push(value);
   }
