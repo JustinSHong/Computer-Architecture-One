@@ -7,8 +7,10 @@ const LDI = 0b10011001;
 const PRN = 0b01000011;
 const HLT = 0b00000001;
 const MUL = 0b10101010;
-const PUSH = 0b01001101;
-const POP = 0b01001100;
+const PUSH = parseInt("01001101", 2);
+// const PUSH = 0b01001101;
+const POP = parseInt("01001100", 2);
+// const POP = 0b01001100;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -115,18 +117,20 @@ class CPU {
         );
         this.PC += 3;
         break;
-      // case PUSH: // PUSH - push the given register on the stack
-      //   // R7 is reserved as the stack pointer - points at the value at the top of the stack
-      //   // stack begins on 0xf4 which is 244
-      //   if (this.reg[7].length === 0) {
-      //     this.reg[7] = [];
-      //   } else {
-      //     this.reg[7] = this.reg[7][0];
-      //   }
-      //   this.reg.push(operandA);
-      //   this.PC += 2;
-
-      //   console.log(operandA);
+      case PUSH: // PUSH - push the given register on the stack
+        if (!this.reg[7]) {
+          // stack pointer is empty
+          this.reg[7] = 0xf4;
+        }
+        this.reg[7] = this.reg[7] - 1;
+        this.ram[this.reg[7]] = this.reg[operandA];
+        this.PC += 2;
+        break;
+      case POP: // POP - pop the value at the top of the stack
+        this.reg[operandA] = this.ram[this.reg[7]];
+        this.reg[7] = this.reg[7] + 1;
+        this.PC += 2;
+        break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
         this.stopClock();

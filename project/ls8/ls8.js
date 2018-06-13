@@ -45,7 +45,7 @@ function loadMemory() {
     .readFileSync(`${process.argv[2]}`, "utf8")
     .trim()
     .split(/[\n]/);
-  console.log(file);
+  // console.log(file);
 
   const program = [];
   // clean up file lines
