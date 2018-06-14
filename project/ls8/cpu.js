@@ -120,8 +120,9 @@ class CPU {
           // stack pointer is empty
           this.reg[7] = 0xf4;
         }
-        this.reg[7] = this.reg[7] - 1;
-        this.ram[this.reg[7]] = this.reg[operandA];
+        // this.reg[7] = this.reg[7] - 1;
+        // this.ram[this.reg[7]] = this.reg[operandA];
+        this.pushValue(this.reg[operandA]);
         this.PC += 2;
         break;
       case POP: // POP - pop the value at the top of the stack
@@ -129,10 +130,10 @@ class CPU {
         this.reg[7] = this.reg[7] + 1;
         this.PC += 2;
         break;
-      case CALL: // CALL - calls a subroutine at the address stored in the register
-        // push address after subroutine onto the stack
-        // set the PC to the address stored in the given register (operandA)
-        break;
+      // case CALL: // CALL - calls a subroutine at the address stored in the register
+      //   // push address after subroutine onto the stack
+      //   // set the PC to the address stored in the given register (operandA)
+      //   break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
         this.stopClock();
@@ -145,6 +146,11 @@ class CPU {
     // for any particular instruction.
 
     // !!! IMPLEMENT ME
+  }
+
+  pushValue(val) {
+    this.reg[7] = this.reg[7] - 1;
+    this.ram[this.reg[7]] = val;
   }
 }
 
