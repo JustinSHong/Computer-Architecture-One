@@ -123,10 +123,10 @@ class CPU {
         this.PC += 3;
         break;
       case PUSH: // PUSH - push the given register on the stack
-        if (!this.reg[7]) {
-          // stack pointer is empty
-          this.reg[7] = 0xf4;
-        }
+        // if (!this.reg[7]) {
+        //   // stack pointer is empty
+        //   this.reg[7] = 0xf4;
+        // }
         // this.reg[7] = this.reg[7] - 1;
         // this.ram[this.reg[7]] = this.reg[operandA];
         this.pushValue(this.reg[operandA]);
@@ -161,6 +161,9 @@ class CPU {
   }
 
   pushValue(val) {
+    if (!this.reg[7]) {
+      this.reg[7] = 0xf4;
+    }
     this.reg[7] = this.reg[7] - 1;
     this.ram[this.reg[7]] = val;
   }
