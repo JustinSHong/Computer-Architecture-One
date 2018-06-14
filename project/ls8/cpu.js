@@ -7,8 +7,11 @@ const LDI = 0b10011001;
 const PRN = 0b01000011;
 const HLT = 0b00000001;
 const MUL = 0b10101010;
+const MULT2PRINT = 0b10101000;
 const PUSH = 0b01001101;
 const POP = 0b01001100;
+const CALL = 0b01001000;
+const RET = 0b00001001;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -115,6 +118,10 @@ class CPU {
         );
         this.PC += 3;
         break;
+      case MULT2PRINT: // MULT2PRINT - multiply a value by 2
+        this.reg[operandA] = this.alu("MUL", this.reg[operandA], 2);
+        this.PC += 3;
+        break;
       case PUSH: // PUSH - push the given register on the stack
         if (!this.reg[7]) {
           // stack pointer is empty
@@ -137,7 +144,7 @@ class CPU {
         this.PC = this.reg[operandA];
         break;
       case RET: // RET - return from a subroutine; pop value from top of stack and store it in the PC
-        this.PC = POP;
+        this.PC = this.ram[this.reg[7]];
         break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
