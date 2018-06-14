@@ -7,10 +7,8 @@ const LDI = 0b10011001;
 const PRN = 0b01000011;
 const HLT = 0b00000001;
 const MUL = 0b10101010;
-const PUSH = parseInt("01001101", 2);
-// const PUSH = 0b01001101;
-const POP = parseInt("01001100", 2);
-// const POP = 0b01001100;
+const PUSH = 0b01001101;
+const POP = 0b01001100;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -130,6 +128,10 @@ class CPU {
         this.reg[operandA] = this.ram[this.reg[7]];
         this.reg[7] = this.reg[7] + 1;
         this.PC += 2;
+        break;
+      case CALL: // CALL - calls a subroutine at the address stored in the register
+        // push address after subroutine onto the stack
+        // set the PC to the address stored in the given register (operandA)
         break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
