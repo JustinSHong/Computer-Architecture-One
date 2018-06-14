@@ -136,6 +136,9 @@ class CPU {
         // set the PC to the address stored in the given register (operandA)
         this.PC = this.reg[operandA];
         break;
+      case RET: // RET - return from a subroutine; pop value from top of stack and store it in the PC
+        this.PC = POP;
+        break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
         this.stopClock();
