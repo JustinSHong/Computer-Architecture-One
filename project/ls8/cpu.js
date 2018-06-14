@@ -130,10 +130,12 @@ class CPU {
         this.reg[7] = this.reg[7] + 1;
         this.PC += 2;
         break;
-      // case CALL: // CALL - calls a subroutine at the address stored in the register
-      //   // push address after subroutine onto the stack
-      //   // set the PC to the address stored in the given register (operandA)
-      //   break;
+      case CALL: // CALL - calls a subroutine at the address stored in the register
+        // push address after subroutine onto the stack
+        this.pushValue(this.PC + 2);
+        // set the PC to the address stored in the given register (operandA)
+        this.PC = this.reg[operandA];
+        break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
         this.stopClock();
