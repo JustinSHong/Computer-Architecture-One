@@ -15,6 +15,7 @@ const RET = 0b00001001;
 const CMP = 0b10100000;
 const JMP = 0b01010000;
 const JEQ = 0b01010001;
+const JNE = 0b01010010;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -177,6 +178,13 @@ class CPU {
         break;
       case JEQ: // JEQ - if equal flag is true, jump to an address
         if (this.E) {
+          this.PC = operandA;
+        } else {
+          this.PC += 2;
+        }
+        break;
+      case JNE: // JNE - if equal flag is false, jump to an address
+        if (!this.E) {
           this.PC = operandA;
         } else {
           this.PC += 2;
