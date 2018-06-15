@@ -75,6 +75,20 @@ class CPU {
         regA = (regA * regB) & 0xff;
         return regA;
         break;
+      case "CMP":
+        // values are the same
+        if (regA === regB) {
+          this.E = 1;
+        }
+        // registerA less than registerB
+        if (regA < regB) {
+          this.L = 1;
+        }
+        // register A greater than register B
+        if (regbA > regB) {
+          this.G = 1;
+        }
+        break;
     }
   }
 
@@ -153,11 +167,8 @@ class CPU {
         this.PC = this.ram[this.reg[7]];
         break;
       case CMP: // CMP - compare values in 2 registers
-      // values are the same
-
-      // registerA less than registerB
-
-      // register A greater than register B
+        this.alu("CMP", this.reg[operandA], this.reg[operandB]);
+        break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
         this.stopClock();
