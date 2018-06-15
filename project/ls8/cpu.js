@@ -13,6 +13,7 @@ const POP = 0b01001100;
 const CALL = 0b01001000;
 const RET = 0b00001001;
 const CMP = 0b10100000;
+const JMP = 0b01010000;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -168,6 +169,10 @@ class CPU {
         break;
       case CMP: // CMP - compare values in 2 registers
         this.alu("CMP", this.reg[operandA], this.reg[operandB]);
+        break;
+      case JMP: // JMP - jump to the address stored in the given register
+        // set PC to the stored address
+        this.PC = operandA;
         break;
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
