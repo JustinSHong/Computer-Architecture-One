@@ -88,7 +88,7 @@ class CPU {
           this.L = 1;
         }
         // register A greater than register B
-        if (regbA > regB) {
+        if (regA > regB) {
           this.G = 1;
         }
         break;
@@ -107,7 +107,7 @@ class CPU {
     // !!! IMPLEMENT ME
     const IR = this.ram.read(this.PC);
     // Debugging output
-    // console.log(`${this.PC}: ${IR.toString(2)}`);
+    console.log(`${this.PC}: ${IR.toString(2)}`);
 
     // Get the two bytes in memory _after_ the PC in case the instruction
     // needs them.
