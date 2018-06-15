@@ -107,7 +107,7 @@ class CPU {
     // !!! IMPLEMENT ME
     const IR = this.ram.read(this.PC);
     // Debugging output
-    console.log(`${this.PC}: ${IR.toString(2)}`);
+    // console.log(`${this.PC}: ${IR.toString(2)}`);
 
     // Get the two bytes in memory _after_ the PC in case the instruction
     // needs them.
@@ -115,6 +115,9 @@ class CPU {
     // !!! IMPLEMENT ME
     const operandA = this.ram.read(this.PC + 1);
     const operandB = this.ram.read(this.PC + 2);
+
+    // console.log(`operandA: ${operandA}`);
+    // console.log(`operandB: ${operandB}`);
 
     // Execute the instruction. Perform the actions for the instruction as
     // outlined in the LS-8 spec.
@@ -171,6 +174,7 @@ class CPU {
         break;
       case CMP: // CMP - compare values in 2 registers
         this.alu("CMP", this.reg[operandA], this.reg[operandB]);
+        this.PC += 3;
         break;
       case JMP: // JMP - jump to the address stored in the given register
         // set PC to the stored address
@@ -178,14 +182,14 @@ class CPU {
         break;
       case JEQ: // JEQ - if equal flag is true, jump to an address
         if (this.E) {
-          this.PC = operandA;
+          this.PC = this.reg[operandA];
         } else {
           this.PC += 2;
         }
         break;
       case JNE: // JNE - if equal flag is false, jump to an address
         if (!this.E) {
-          this.PC = operandA;
+          this.PC = this.reg[operandA];
         } else {
           this.PC += 2;
         }
