@@ -12,6 +12,7 @@ const PUSH = 0b01001101;
 const POP = 0b01001100;
 const CALL = 0b01001000;
 const RET = 0b00001001;
+const CMP = 0b10100000;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -27,6 +28,11 @@ class CPU {
 
     // Special-purpose registers
     this.PC = 0; // Program Counter
+
+    // flags
+    this.E = 0; // equal
+    this.L = 0; // less than
+    this.G = 0; // greater than
   }
 
   /**
@@ -146,6 +152,12 @@ class CPU {
       case RET: // RET - return from a subroutine; pop value from top of stack and store it in the PC
         this.PC = this.ram[this.reg[7]];
         break;
+      case CMP: // CMP - compare values in 2 registers
+      // values are the same
+
+      // registerA less than registerB
+
+      // register A greater than register B
       default:
         console.log(`unknown instruction: ${IR.toString(2)}`);
         this.stopClock();
